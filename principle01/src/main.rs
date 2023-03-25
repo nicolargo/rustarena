@@ -1,10 +1,10 @@
 fn main() {
-    // let foo = 5;
+    // let foo = 42;
     // println!("{foo}");
-    // foo = 4; // error: cannot assign twice to immutable variable
+    // foo = 7; // error: cannot assign twice to immutable variable
 
-    let mut bar = 5;
+    let mut bar = 42;
     println!("{bar}");
-    bar = 4; // ok
+    bar = 7; // ok
     println!("{bar}");
 }
