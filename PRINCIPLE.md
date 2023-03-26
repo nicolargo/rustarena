@@ -101,3 +101,32 @@ pub fn bar(a: i32, b: i32) -> i32 {
 
 [Code example](./principle07/src/main.rs)
 
+# Rust principle #08
+
+"Flow control conditions should be a bool."
+
+```rust
+if true {
+    // This is executed
+}
+
+if !false {
+    // This is executed
+}
+
+let result: bool = if true { 42 } else { 0 };
+
+if result == 42 {
+    // This is executed
+} else {
+    // This is not executed
+}
+
+let mut index = 0;
+while index < result {
+    index += 1;
+}
+assert_eq!(index, result);
+```
+
+[Code example](./principle08/src/main.rs)
