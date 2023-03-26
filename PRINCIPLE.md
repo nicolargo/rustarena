@@ -103,7 +103,7 @@ pub fn bar(a: i32, b: i32) -> i32 {
 
 # Rust principle #08
 
-"Flow control conditions should be a bool."
+"Flow control condition should be a bool."
 
 ```rust
 if true {
@@ -130,3 +130,75 @@ assert_eq!(index, result);
 ```
 
 [Code example](./principle08/src/main.rs)
+
+# Rust principle #09
+
+"Rust do not have any garbage collector.
+Rust do not ask developer to allocate and free memory.
+Rust use ownership rules to manage memory."
+
+```rust
+// Rule 1: Each value in Rust has a variable that’s called its owner.
+//==============================================================
+let foo = 42; // foo is allocated on the stack
+let foo_s = String::from("Foo"); // foo_s is allocated on the heap (because its size is not known at compile time)
+
+// Rule 2: There can only be one owner at a time.
+//==============================================================
+let mut bar_s = foo_s; // bar_s is allocated on the heap and become the owner of the foo_s value
+bar_s.push_str(" and Bar"); // bar_s is modified
+println!("{}", bar_s); // Foo and Bar
+// println!("{}", foo_s); // Error: foo_s is not known anymore (Error: value borrowed here after move)
+
+// Rule 3: When the owner goes out of scope, the value will be dropped.
+//==============================================================
+{
+    let bar = 43; // bar is allocated on the stack
+    println!("{}", bar); // 43
+} // bar is automatically dropped here (memory is freed)
+println!("{}", foo); // foo is still here
+// println!("{}", bar); // Error: bar is not known anymore (Error: not found in this scope)
+
+// Copy can be used when the size is known at compile time
+// So copy exist for integers, booleans, floats, characters, tuples (if all elements are copy)
+let bar = foo; // bar is allocated on the stack and contains a copy of the foo value
+assert_eq!(foo, bar);
+println!("{}", bar); // 42
+```
+
+[Code example](./principle09/src/main.rs)
+
+# Rust principle #10
+
+"Reference is a type of pointer that points to a value in memory without taking ownership of it."
+
+```rust
+fn main() {
+    let foo_s1 = String::from("Foo 1");
+    myfunction(foo_s1); // foo_s1 is moved to the process function
+    // println!("{}", foo_s1); // Error: foo_s1 is not known anymore (Error: value borrowed here after move)
+
+    let foo_s2 = String::from("Foo 2");
+    myfunction_ref(&foo_s2); // &foo_s2 is a reference to the foo_s2 value
+    println!("{}", foo_s2); // foo_s2 is still here
+
+    let mut foo_s3 = String::from("Foo 3");
+    myfunction_ref_mut(&mut foo_s3); // &mut foo_s3 is a mutable reference to the foo_s3 value
+    println!("{}", foo_s3); // foo_s3 is still here
+}
+
+fn myfunction(s: String) { // s is allocated on the stack and become the owner of the bar_s value
+    println!("{}", s);
+}
+
+fn myfunction_ref(s: &String) { // s is allocated on the stack and become the owner of the bar_s value
+    println!("{}", s);
+}
+
+fn myfunction_ref_mut(s: &mut String) { // s is allocated on the stack and become the owner of the bar_s value
+    s.push_str(" and Bar");
+    println!("{}", s);
+}
+```
+
+[Code example](./principle10/src/main.rs)
