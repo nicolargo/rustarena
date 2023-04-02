@@ -58,7 +58,6 @@ let smile = '😀'; // is also a char (yes unicode is supported)
 
 ```rust
 let tuple = (42, 42.0, true, 'a', "Hello world!"); // Tuple of 5 elements
-let array_of_42 : [i32; 5] = [42, 42, 42, 42, 42]; // Array of 5 i32, initialized with 42
 let tuple_of_42 = (42, 42, 42, 42, 42); // Tuple of 5 i32, initialized with 42
 ```
 
@@ -202,3 +201,25 @@ fn myfunction_ref_mut(s: &mut String) { // s is allocated on the stack and becom
 ```
 
 [Code example](./principle10/src/main.rs)
+
+# Rust principle #11
+
+"Rust has three types to store a sequence of a value: array, vector and slice."
+
+```rust
+// Array is stored on the stack (size is known at compile time and can not be changed)
+let array_of_42 : [i32; 5] = [42, 42, 42, 42, 42]; // Array of 5 i32, initialized with 42
+
+// Vector is stored on the heap (size is not known at compile time and can be changed)
+let mut vector_of_42 : Vec<i32> = vec![42, 42, 42, 42, 42]; // Vector of 5 i32, initialized with 42
+vector_of_42.push(42); // Add a new element to the vector
+
+// Slice is a reference to a sequence of values (size is not known at compile time and can not be changed)
+// Has slice is a reference, it did not take ownership of the values
+let slice_of_42 : &[i32] = &vector_of_42; // Slice of 6 i32, initialized with 42
+let slice_first_3 : &[i32] = &vector_of_42[0..3]; // Slice of 3 i32, initialized with 42
+```
+
+[Code example](./principle11/src/main.rs)
+
+
